@@ -64,8 +64,9 @@ namespace Test_work.Tests
             //Assert
             Assert.IsType<OkObjectResult>(result.Result);
         }
+
         [Fact]
-        public async void GetAllCitizen_ReturnBadResult()
+        public async void GetAllCitizen_ReturnBadResult_MinAgeGreaterThanMaxAge()
         {
             //Arrange         
             GetCitizenQueryObject queryObject = new GetCitizenQueryObject() { Sex = "female", MinAge = 19, MaxAge = 15 };
@@ -75,6 +76,31 @@ namespace Test_work.Tests
             //Assert
             Assert.IsType<BadRequestResult>(result.Result);
         }
+
+        [Fact]
+        public async void GetAllCitizen_ReturnBadResult_WrongSex()
+        {
+            //Arrange         
+            GetCitizenQueryObject queryObject = new GetCitizenQueryObject() { Sex = "qwerty", MinAge = 19, MaxAge = 15 };
+            //Act
+            var result = await controller.GetAll(queryObject, null);
+
+            //Assert
+            Assert.IsType<BadRequestResult>(result.Result);
+        }
+
+        [Fact]
+        public async void GetAllCitizen_ReturnBadResult_MaxAgeZero()
+        {
+            //Arrange         
+            GetCitizenQueryObject queryObject = new GetCitizenQueryObject() { Sex = "qwerty", MinAge = 0, MaxAge = 0 };
+            //Act
+            var result = await controller.GetAll(queryObject, null);
+
+            //Assert
+            Assert.IsType<BadRequestResult>(result.Result);
+        }
+
         [Fact]
         public async void GetAllCitizen_ReturnNotFoundResult()
         {
@@ -86,8 +112,6 @@ namespace Test_work.Tests
             //Assert
             Assert.IsType<NotFoundResult>(result.Result);
         }
-
-
 
         [Fact]
         public async void GetSingleCitizen_ReturnOkresult()

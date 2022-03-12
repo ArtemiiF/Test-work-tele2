@@ -41,7 +41,7 @@ namespace Test_work.Controllers
                                         select c).ToList();
                             break;
                         default:
-                            return BadRequest("No such sex");
+                            return BadRequest();
                     }
 
                 }
@@ -73,7 +73,7 @@ namespace Test_work.Controllers
             if (paging is not null)
             {
                 if (paging.PageNumber <= 0 || paging.PageSize <= 0)
-                    return BadRequest("PageNumber or PageSize are less than zero");
+                    return BadRequest();
                 
                 pagingInfo = new PagingInfo(paging, dbContext.Citizens.Count() / (paging.PageSize));
                 
